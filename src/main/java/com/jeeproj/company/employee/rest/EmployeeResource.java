@@ -16,16 +16,12 @@ import java.util.List;
 @Path("employees")
 @Produces({MediaType.APPLICATION_JSON})
 public class EmployeeResource {
-
-//    @Context
-//    private HttpHeaders headers;
-
     @Inject
     EmployeeService employeeService;
 
     @GET
     public Response getEmployees() {
-        List<Employee> employees = employeeService.getEmployees();
+        List<EmployeeResponseDTO> employees = employeeService.getEmployees();
         return Response.ok(employees).build();
     }
 
@@ -38,14 +34,6 @@ public class EmployeeResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
     public Response createEmp(@Valid EmployeeRequestDTO newEmp) {
-
-//        MultivaluedMap<String, String> requestHeaders = headers.getRequestHeaders();
-//        String authorizationHeader = requestHeaders.getFirst("Authorization");
-//
-//        if (authorizationHeader == null) {
-//            throw new UnauthorizedException("Unauthorized");
-//        }
-
         EmployeeResponseDTO employeeResponseDTO = employeeService.createEmployee(newEmp);
 
         return Response.ok(employeeResponseDTO).build();

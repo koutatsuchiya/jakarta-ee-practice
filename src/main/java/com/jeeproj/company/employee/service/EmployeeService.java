@@ -29,20 +29,13 @@ public class EmployeeService {
     @Inject
     EmployeeMapper employeeMapper;
 
-    public List<Employee> getEmployees() {
-        return employeeDAO.findAll();
+    public List<EmployeeResponseDTO> getEmployees() {
+        return employeeMapper.toEmployeeResponseDTOs(employeeDAO.findAll());
     }
 
     public Employee getEmployeeById(Long id) throws NotFoundException {
         return employeeDAO.findById(id).orElseThrow(() -> new NotFoundException("Employee not found"));
     }
-
-//    public List<Employee> get(Long dpt) throws EntityNotFoundException {
-//        throw new EntityNotFoundException("Employee Not Found.");
-//        throw new BadRequestException("Bad request");
-
-//        return employeeDAO.getEmployeeByDepartmentID(dpt);
-//    }
 
     public EmployeeResponseDTO createEmployee(@Valid EmployeeRequestDTO newEmp) {
         Employee addedEmp = employeeDAO.add(employeeMapper.toEmployee(newEmp));

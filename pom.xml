@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.axonactive</groupId>
+	<groupId>com.jeeproj</groupId>
 	<artifactId>company</artifactId>
 	<version>0.1.0</version>
 	<packaging>war</packaging>
@@ -29,6 +29,8 @@
 		<wagon-maven-plugin.version>2.0.2</wagon-maven-plugin.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<flyway.version>9.3.0</flyway.version>
+		<postgres.version>42.7.1</postgres.version>
 	</properties>
 
 	<dependencyManagement>
@@ -126,6 +128,18 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>${flyway.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgres.version}</version>
+		</dependency>
 	</dependencies>
 
 	<distributionManagement>
@@ -221,4 +235,24 @@
 <!--			</plugin>-->
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>local</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.flywaydb</groupId>
+						<artifactId>flyway-maven-plugin</artifactId>
+						<version>${flyway.version}</version>
+						<configuration>
+							<configFiles>
+								<configFile>src/main/resources/config/local/flyway.properties</configFile>
+							</configFiles>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

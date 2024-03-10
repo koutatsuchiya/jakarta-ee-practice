@@ -2,6 +2,7 @@ package com.jeeproj.company.department.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.jeeproj.company.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class DepartmentDTO {
-    @NotBlank(message = "department name must not blank")
-    private String name;
+    private Long id;
 
-    @JsonbDateFormat("yyyy-MM-dd")
+    @NotBlank(message = "department name must not blank")
+    private String departmentName;
+
     private LocalDate startDate;
+    private Status status;
 }

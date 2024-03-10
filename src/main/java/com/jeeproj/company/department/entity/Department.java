@@ -1,6 +1,7 @@
 package com.jeeproj.company.department.entity;
 
 import com.jeeproj.company.base.entity.BaseEntity;
+import com.jeeproj.company.enums.Status;
 import lombok.*;
 
 import javax.json.bind.annotation.JsonbDateFormat;
@@ -15,9 +16,11 @@ import java.time.LocalDate;
 @Entity
 public class Department extends BaseEntity {
     @Column(nullable = false)
-    private String name;
+    private String departmentName;
 
     @JsonbDateFormat("yyyy-MM-dd")
     private LocalDate startDate;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

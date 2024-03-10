@@ -4,6 +4,7 @@ import com.jeeproj.company.base.entity.BaseEntity;
 import com.jeeproj.company.department.entity.Department;
 import lombok.*;
 import com.jeeproj.company.enums.Gender;
+import com.jeeproj.company.enums.Status;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
@@ -30,7 +31,11 @@ public class Employee extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @ManyToOne
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id")
     private Department department;
 
     @Transient

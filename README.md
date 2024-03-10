@@ -46,6 +46,16 @@ standalone.bat
 - If you want to check if your app is deployed, navigate to http://localhost:9990/console/index.html#deployments
 - ***Note**: You can just run WildFly one time
 
+# Set up database
+- Create a postgres database
+- Create a file flyway.properties in folder /src/resources/config/local as this
+  - flyway.url=
+  - flyway.user=
+  - flyway.password=
+```shell
+mvn flyway:migrate -Plocal -X
+```
+
 ***
 # Running the app using docker 
 
