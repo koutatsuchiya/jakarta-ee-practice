@@ -5,8 +5,7 @@ import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.project.entity.Project;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -14,13 +13,15 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(name = "UQ_eid_pid", columnNames = { "employee_id", "project_id" }) })
 public class Assignment extends BaseEntity {
+    private int numberOfHour;
 
-    private int numberOfHours;
-
-    @ManyToOne
-    private Employee employee;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

@@ -25,8 +25,8 @@ public class EmployeeResource {
         return Response.ok(employees).build();
     }
 
-    @Path("/{id}")
     @GET
+    @Path("/{id}")
     public Response getEmployeeById(@PathParam("id") Long id) throws NotFoundException {
         return Response.ok(employeeService.getEmployeeById(id)).build();
     }

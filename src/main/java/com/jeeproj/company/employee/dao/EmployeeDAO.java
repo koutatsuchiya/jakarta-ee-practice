@@ -5,6 +5,7 @@ import com.jeeproj.company.employee.entity.Employee;
 
 import javax.ejb.Stateless;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class EmployeeDAO extends BaseDAO<Employee> {
@@ -20,4 +21,13 @@ public class EmployeeDAO extends BaseDAO<Employee> {
                 .getResultList();
     }
 
+    public Optional<Employee> findActiveEmployeeById(Long id) {
+        Employee employee = entityManager.createQuery("select e from Employee e " +
+                        "where e.id = :id " +
+                        "and e.status = 'ACTIVE'", Employee.class)
+                .setParameter("id", id)
+                .getResultList().stream().findFirst().orElse(null);
+
+        return Optional.ofNullable(employee);
+    }
 }
