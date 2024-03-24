@@ -1,23 +1,25 @@
 package com.jeeproj.company.employee.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
-import com.jeeproj.company.employee.dto.EmployeeRequestDTO;
+import com.jeeproj.company.employee.dto.EmployeeDTO;
 import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
-import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.employee.service.EmployeeService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.List;
-
 
 @Path("employees")
 @Produces({MediaType.APPLICATION_JSON})
 public class EmployeeResource {
     @Inject
     EmployeeService employeeService;
+
+    @Context
+    private UriInfo uriInfo;
 
     @GET
     public Response getEmployees() {
@@ -31,37 +33,35 @@ public class EmployeeResource {
         return Response.ok(employeeService.getEmployeeById(id)).build();
     }
 
+    @GET
+    @Path("/departments/{id}")
+    public Response getEmployeesByDepartmentID(@PathParam("departmentID") Long id) throws NotFoundException {
+        return Response.ok(employeeService.getEmployeesByDepartment(id)).build();
+    }
+
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response createEmp(@Valid EmployeeRequestDTO newEmp) {
-        EmployeeResponseDTO employeeResponseDTO = employeeService.createEmployee(newEmp);
+    public Response add(@Valid EmployeeDTO newEmp) throws NotFoundException {
+        EmployeeResponseDTO employeeResponseDTO = employeeService.add(newEmp);
+        URI location = uriInfo.getAbsolutePathBuilder().path(employeeResponseDTO.getId().toString()).build();
 
-        return Response.ok(employeeResponseDTO).build();
+        return Response.created(location).entity(employeeResponseDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateEmployee(@PathParam("id") long id, @Valid EmployeeRequestDTO updatedEmployee)
+    public Response updateEmployee(@PathParam("id") Long id, @Valid EmployeeDTO updateEmployeeRequestDTO)
             throws NotFoundException {
-        Employee updatedEmployeeEntity = employeeService.updateEmployee(id, updatedEmployee);
+        EmployeeResponseDTO updatedEmployee = employeeService.update(id, updateEmployeeRequestDTO);
 
-        return Response.ok(updatedEmployeeEntity).build();
+        return Response.ok(updatedEmployee).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteEmployee(@PathParam("id") long id) {
+    public Response deleteEmployee(@PathParam("id") Long id) throws NotFoundException {
         employeeService.removeEmployee(id);
 
-        return Response.ok().build();
+        return Response.noContent().build();
     }
-
-//    @GET
-//    public Response getEmployeesByDepartmentID(@PathParam("departmentID") Long id)  {
-//        try {
-//            return Response.ok(employeeService.get(id)).build();
-//        } catch (EntityNotFoundException e) {
-//            return new AppExceptionMapper().toResponse(e);
-//        }
-//    }
 }

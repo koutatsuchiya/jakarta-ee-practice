@@ -2,14 +2,16 @@ package com.jeeproj.company.department.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
 import com.jeeproj.company.department.dto.DepartmentDTO;
-import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.department.service.DepartmentService;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 @Path("departments")
@@ -18,9 +20,12 @@ public class DepartmentResource {
     @Inject
     DepartmentService departmentService;
 
+    @Context
+    private UriInfo uriInfo;
+
     @GET
     public Response getDepartments() {
-        List<Department> departments = departmentService.getDepartments();
+        List<DepartmentDTO> departments = departmentService.getDepartments();
         return Response.ok(departments).build();
     }
 
@@ -32,24 +37,26 @@ public class DepartmentResource {
     }
 
     @POST
-    public Response createDepartment(@Valid DepartmentDTO departmentDTO) {
-        DepartmentDTO addedDept = departmentService.createDepartment(departmentDTO);
-        return Response.ok(addedDept).build();
+    public Response add(@Valid DepartmentDTO departmentDTO) {
+        DepartmentDTO addedDept = departmentService.add(departmentDTO);
+        URI location = uriInfo.getAbsolutePathBuilder().path(addedDept.getId().toString()).build();
+
+        return Response.created(location).entity(addedDept).build();
     }
 
     @PUT
     @Path("/{id}")
     public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentDTO updatedDepartment)
             throws NotFoundException {
-        DepartmentDTO updatedDepartmentDTO = departmentService.updateDepartment(id, updatedDepartment);
+        DepartmentDTO updatedDepartmentDTO = departmentService.update(id, updatedDepartment);
 
         return Response.ok(updatedDepartmentDTO).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteDepartment(@PathParam("id") Long id) {
+    public Response deleteDepartment(@PathParam("id") Long id) throws NotFoundException {
         departmentService.removeDepartment(id);
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 }

@@ -14,20 +14,23 @@ public class EmployeeDAO extends BaseDAO<Employee> {
     }
 
     public List<Employee> getEmployeeByDepartmentID (Long departmentID) {
-        return entityManager.createQuery("SELECT e " +
-                "FROM Employee e " +
+        return entityManager.createQuery("SELECT e FROM Employee e " +
                 "WHERE e.department.id = :departmentID", Employee.class)
                 .setParameter("departmentID", departmentID)
                 .getResultList();
     }
 
-    public Optional<Employee> findActiveEmployeeById(Long id) {
+    public Optional<Employee> findEmployeeById(Long id) {
         Employee employee = entityManager.createQuery("select e from Employee e " +
-                        "where e.id = :id " +
-                        "and e.status = 'ACTIVE'", Employee.class)
+                        "where e.id = :id", Employee.class)
                 .setParameter("id", id)
-                .getResultList().stream().findFirst().orElse(null);
+                .getSingleResult();
 
         return Optional.ofNullable(employee);
+    }
+
+    public void deleteEmployeesByDepartment(Long id) {
+        entityManager.createQuery("DELETE FROM Employee e WHERE e.department.id = :id")
+                .setParameter("id", id).executeUpdate();
     }
 }

@@ -1,7 +1,7 @@
 package com.jeeproj.company.assignment.dto;
 
-import com.jeeproj.company.employee.entity.Employee;
-import com.jeeproj.company.project.entity.Project;
+import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
+import com.jeeproj.company.project.dto.ProjectDTO;
 import lombok.*;
 
 @Getter
@@ -12,6 +12,6 @@ import lombok.*;
 public class AssignmentDTO {
     private Long id;
     private int numberOfHour;
-    private Employee employee;
-    private Project project;
+    private EmployeeResponseDTO employee;
+    private ProjectDTO project;
 }

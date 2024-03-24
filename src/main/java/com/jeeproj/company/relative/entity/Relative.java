@@ -2,7 +2,7 @@ package com.jeeproj.company.relative.entity;
 
 import com.jeeproj.company.base.entity.BaseEntity;
 import com.jeeproj.company.employee.entity.Employee;
-import com.jeeproj.company.enums.Gender;
+import com.jeeproj.company.base.enums.Gender;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,13 +13,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "relatives")
 @NamedEntityGraph(
         name = "relative-graph",
         attributeNodes = {
                 @NamedAttributeNode("employee")
         }
 )
-@Table(name = "relatives")
 @NamedQueries({
         @NamedQuery(
                 name = "Relative.findRelativesByDepartment",
@@ -31,9 +31,7 @@ import javax.persistence.*;
                         "JOIN FETCH Assignment a ON e.id = a.employee.id " +
                         "JOIN FETCH Project p ON p.id = a.project.id " +
                         "JOIN FETCH Department d ON d.id = p.department.id " +
-                        "WHERE e.status = 'ACTIVE' " +
-                        "AND r.relationship = 'father' AND e.gender = 'MALE' " +
-                        "AND d.id = :departmentId"
+                        "WHERE d.id = :departmentId"
         )
 })
 public class Relative extends BaseEntity {

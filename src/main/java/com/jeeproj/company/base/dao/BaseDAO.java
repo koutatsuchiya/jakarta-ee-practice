@@ -39,9 +39,7 @@ public abstract class BaseDAO<T extends BaseEntity> {
         return Optional.ofNullable(entityManager.find(entityClass, id));
     }
 
-    public void delete(long id) {
-        this.findById(id).ifPresent(entity -> {
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-        });
+    public void delete(T entity) {
+        entityManager.remove(entity);
     }
 }

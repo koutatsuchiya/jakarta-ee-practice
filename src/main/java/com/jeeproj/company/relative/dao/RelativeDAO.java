@@ -20,12 +20,6 @@ public class RelativeDAO extends BaseDAO<Relative> {
         super(Relative.class);
     }
 
-    public Long findTotalCount(Long employeeId) {
-        Query query = entityManager.createQuery("select count(r.id) from Relative r where r.employee.id = :employeeId");
-        query.setParameter("employeeId", employeeId);
-        return (Long)query.getSingleResult();
-    }
-
     public List<Relative> findRelativesByEmployeeId(Long employeeId) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Relative> query = cb.createQuery(Relative.class);
@@ -43,5 +37,16 @@ public class RelativeDAO extends BaseDAO<Relative> {
     public List<RelativeDTO> findRelativesByDepartment(Long deptId) {
         return entityManager.createNamedQuery("Relative.findRelativesByDepartment", RelativeDTO.class)
                 .setParameter("departmentId", deptId).getResultList();
+    }
+
+    public void deleteRelativesByEmployees(Long id) {
+        entityManager.createQuery("DELETE FROM Relative r WHERE r.employee.id = :id")
+                .setParameter("id", id).executeUpdate();
+    }
+
+    public Long getTotal(Long employeeId) {
+        Query query = entityManager.createQuery("select count(r.id) from Relative r where r.employee.id = :employeeId");
+        query.setParameter("employeeId", employeeId);
+        return (Long)query.getSingleResult();
     }
 }

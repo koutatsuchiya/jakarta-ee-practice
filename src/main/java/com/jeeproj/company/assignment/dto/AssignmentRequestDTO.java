@@ -9,13 +9,13 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateAssignmentRequestDTO {
-    @NotNull(message = "Number of hour is required")
-    private Integer numberOfHour;
-
+public class AssignmentRequestDTO {
     @NotNull(message = "Project's id is required")
     private Long projectId;
 
     @NotNull(message = "Employee's id is required")
     private Long employeeId;
+
+    @NotNull(message = "Number of hour is required")
+    private Integer numberOfHour;
 }

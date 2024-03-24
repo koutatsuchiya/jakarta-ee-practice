@@ -2,7 +2,8 @@ package com.jeeproj.company.department.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.jeeproj.company.enums.Status;
+import com.jeeproj.company.base.enums.Status;
+import com.jeeproj.company.base.validations.ValueOfEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +21,12 @@ import java.time.LocalDate;
 public class DepartmentDTO {
     private Long id;
 
-    @NotBlank(message = "department name must not blank")
+    @NotBlank(message = "department name must not be blank")
     private String departmentName;
 
+    @JsonbDateFormat("yyyy-MM-dd")
     private LocalDate startDate;
+
+    @ValueOfEnum(enumClass = Status.class)
     private Status status;
 }

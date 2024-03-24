@@ -2,12 +2,18 @@ package com.jeeproj.company.project.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
 import com.jeeproj.company.project.dto.ProjectDTO;
+import com.jeeproj.company.project.dto.ProjectReportDTO;
+import com.jeeproj.company.project.dto.ProjectRequestDTO;
 import com.jeeproj.company.project.service.ProjectService;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 import java.util.List;
 
 @Path("projects")
@@ -16,32 +22,63 @@ public class ProjectResource {
     @Inject
     private ProjectService projectService;
 
+    @Context
+    private UriInfo uriInfo;
+
     @GET
     public Response findAll() {
         List<ProjectDTO> projectDTOS = projectService.getAll();
-        return Response.ok().entity(projectDTOS).build();
+        return Response.ok(projectDTOS).build();
     }
 
     @GET
     @Path("/{id}")
     public Response findById(@PathParam("id") Long id) throws NotFoundException {
         ProjectDTO projectDTO = projectService.getProjectById(id);
-        return Response.ok().entity(projectDTO).build();
+        return Response.ok(projectDTO).build();
     }
 
     @GET
-    @Path("/department")
-    public Response findProjectsByDepartmentName(@DefaultValue("department") @QueryParam("departmentName") String departmentName) {
-        List<ProjectDTO> projectListResponseDTO = projectService.findAllByDepartmentName(departmentName);
-        System.out.println(projectListResponseDTO.size());
-        return Response.ok().entity(projectListResponseDTO).build();
+    @Path("/departments")
+    public Response findProjectsByDepartmentName(
+            @DefaultValue("department") @QueryParam("departmentName") String departmentName) {
+        List<ProjectDTO> projectDTOs = projectService.getAllByDepartmentName(departmentName);
+
+        return Response.ok(projectDTOs).build();
+    }
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response createProject(@Valid ProjectRequestDTO projectRequestDTO) throws NotFoundException {
+        ProjectDTO projectDTO = projectService.add(projectRequestDTO);
+        URI location = uriInfo.getAbsolutePathBuilder().path(projectDTO.getId().toString()).build();
+
+        return Response.created(location).entity(projectDTO).build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response updateProject(@PathParam("id") Long id, @Valid ProjectRequestDTO projectRequestDTO)
+            throws NotFoundException {
+        ProjectDTO projectDTO = projectService.update(id, projectRequestDTO);
+
+        return Response.ok(projectDTO).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteProject(@PathParam("id") Long id) throws NotFoundException {
+        projectService.removeProject(id);
+
+        return Response.noContent().build();
     }
 
     @GET
-    @Path("/area")
+    @Path("/areas")
     public Response findProjectsByArea(@DefaultValue("area") @QueryParam("area") String area) {
-        List<ProjectDTO> projectListResponseDTO = projectService.findAllByArea(area);
-        System.out.println(projectListResponseDTO.size());
-        return Response.ok().entity(projectListResponseDTO).build();
+        List<ProjectReportDTO> projectReportDTOs = projectService.findAllByArea(area);
+
+        return Response.ok(projectReportDTOs).build();
     }
 }

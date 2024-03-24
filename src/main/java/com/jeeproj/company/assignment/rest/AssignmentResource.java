@@ -27,7 +27,7 @@ public class AssignmentResource {
     @GET
     public Response findAssignments() {
         List<AssignmentDTO> assignmentDTOs = assignmentService.getAll();
-        return Response.ok().entity(assignmentDTOs).build();
+        return Response.ok(assignmentDTOs).build();
     }
 
     @GET
@@ -38,12 +38,26 @@ public class AssignmentResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response add(@Valid CreateAssignmentRequestDTO requestDTO)
+    public Response add(@Valid AssignmentRequestDTO requestDTO)
             throws BadRequestException, NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.add(requestDTO);
+        URI location = uriInfo.getAbsolutePathBuilder().path(assignmentDTO.getId().toString()).build();
 
-        String path = String.format("%s/%d", uriInfo.getAbsolutePath().getPath(), assignmentDTO.getId());
+        return Response.created(location).entity(assignmentDTO).build();
+    }
 
-        return Response.created(URI.create(path)).entity(assignmentDTO).build();
+    @PUT
+    @Path("/{id}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response update(@PathParam("id") Long id, @Valid AssignmentRequestDTO requestDTO) throws NotFoundException {
+        AssignmentDTO assignmentDTO = assignmentService.update(id, requestDTO);
+        return Response.ok(assignmentDTO).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteAssignment(@PathParam("id") Long id) throws NotFoundException {
+        assignmentService.removeAssignment(id);
+        return Response.noContent().build();
     }
 }

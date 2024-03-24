@@ -1,6 +1,6 @@
 CREATE TABLE department (
     id                      INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    start_date              TIMESTAMP,
+    start_date              DATE,
     department_name         VARCHAR(200),
     created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -21,7 +21,7 @@ CREATE TABLE employee (
     last_name               VARCHAR(20),
     salary                  DOUBLE PRECISION,
     gender                  VARCHAR(10),
-    date_of_birth           TIMESTAMP,
+    date_of_birth           DATE,
     department_id           INT,
     created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -47,7 +47,7 @@ CREATE TABLE assignment (
 
 CREATE TABLE relatives (
     id                      INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    full_name                VARCHAR(100),
+    full_name               VARCHAR(100),
     gender                  VARCHAR(10),
     phone_number            VARCHAR(15),
     relationship            VARCHAR(100),

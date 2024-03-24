@@ -2,7 +2,7 @@ package com.jeeproj.company.project.entity;
 
 import com.jeeproj.company.base.entity.BaseEntity;
 import com.jeeproj.company.department.entity.Department;
-import com.jeeproj.company.enums.Status;
+import com.jeeproj.company.base.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,8 +14,8 @@ import javax.persistence.*;
 @Builder
 @Entity
 public class Project extends BaseEntity {
-    private String area;
     private String projectName;
+    private String area;
 
     @Enumerated(EnumType.STRING)
     private Status status;

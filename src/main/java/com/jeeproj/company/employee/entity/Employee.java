@@ -3,11 +3,12 @@ package com.jeeproj.company.employee.entity;
 import com.jeeproj.company.base.entity.BaseEntity;
 import com.jeeproj.company.department.entity.Department;
 import lombok.*;
-import com.jeeproj.company.enums.Gender;
-import com.jeeproj.company.enums.Status;
+import com.jeeproj.company.base.enums.Gender;
+import com.jeeproj.company.base.enums.Status;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,10 +24,10 @@ public class Employee extends BaseEntity {
     private String lastName;
 
     private String middleName;
-    private Integer salary;
+    private Double salary;
 
     @JsonbDateFormat("yyyy-MM-dd")
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -214,25 +214,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- Execute 'mvn clean package wildfly:dev' to run the application. -->
-<!--			<plugin>-->
-<!--				<groupId>org.wildfly.plugins</groupId>-->
-<!--				<artifactId>wildfly-maven-plugin</artifactId>-->
-<!--				<version>${wildfly-plugin.version}</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<phase>install</phase>-->
-<!--						<goals>-->
-<!--							<goal>deploy</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--				<configuration>-->
-<!--					<version>${wildfly.version}</version>-->
-<!--					<server-config>standalone.xml</server-config>-->
-<!--				</configuration>-->
-<!--			</plugin>-->
 		</plugins>
 	</build>
 

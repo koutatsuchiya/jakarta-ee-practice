@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.jeeproj.company.base.enums.Status;
 import com.jeeproj.company.base.validations.ValueOfEnum;
-import com.jeeproj.company.department.dto.DepartmentDTO;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -15,9 +14,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ProjectDTO {
-    private Long id;
-
+public class ProjectRequestDTO {
     @NotBlank(message = "Project name must not be blank")
     private String projectName;
 
@@ -27,5 +24,5 @@ public class ProjectDTO {
     @ValueOfEnum(enumClass = Status.class)
     private Status status;
 
-    private DepartmentDTO department;
+    private Long departmentId;
 }

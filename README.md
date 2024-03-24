@@ -55,22 +55,3 @@ standalone.bat
 ```shell
 mvn flyway:migrate -Plocal -X
 ```
-
-***
-# Running the app using docker 
-
-### Run docker on local machine
-
-1. Use this command to build image api ::
-```shell
-docker compose build api
-```
-- ***Note**: If any changes in source code, need to run to rebuild the image.
-
-2. After build image, run this command (Make sure no process is running on ports **8081** and **9991**):
-```shell
-docker compose up -d
-```
-3. Check:
-  * Navigate to http://localhost:8081 in your web browser to check
-  * Navigate to http://localhost:9991 to go to WildFly console

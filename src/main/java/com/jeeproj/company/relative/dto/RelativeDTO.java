@@ -1,7 +1,7 @@
 package com.jeeproj.company.relative.dto;
 
-import com.jeeproj.company.employee.entity.Employee;
-import com.jeeproj.company.enums.Gender;
+import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
+import com.jeeproj.company.base.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -26,5 +26,5 @@ public class RelativeDTO {
     }
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Employee employee;
+    private EmployeeResponseDTO employee;
 }
