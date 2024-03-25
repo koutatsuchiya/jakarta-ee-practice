@@ -75,7 +75,11 @@ public class RelativeService {
         relativeDAO.delete(relative);
     }
 
+    public List<RelativeDTO> findRelativeDTOsByDepartment(Long deptId) {
+        return relativeDAO.findRelativeDTOsByDepartment(deptId);
+    }
+
     public List<RelativeDTO> findRelativesByDepartment(Long deptId) {
-        return relativeDAO.findRelativesByDepartment(deptId);
+        return relativeMapper.toRelativeDTOs(relativeDAO.findRelativesByDepartment(deptId));
     }
 }

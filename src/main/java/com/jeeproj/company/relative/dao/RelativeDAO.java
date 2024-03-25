@@ -7,7 +7,8 @@ import com.jeeproj.company.relative.dto.RelativeDTO;
 import com.jeeproj.company.relative.entity.Relative;
 
 import javax.ejb.Stateless;
-import javax.persistence.Query;
+import javax.persistence.EntityGraph;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Fetch;
@@ -34,9 +35,18 @@ public class RelativeDAO extends BaseDAO<Relative> {
         return entityManager.createQuery(query).getResultList();
     }
 
-    public List<RelativeDTO> findRelativesByDepartment(Long deptId) {
+    public List<RelativeDTO> findRelativeDTOsByDepartment(Long deptId) {
         return entityManager.createNamedQuery("Relative.findRelativesByDepartment", RelativeDTO.class)
                 .setParameter("departmentId", deptId).getResultList();
+    }
+
+    public List<Relative> findRelativesByDepartment(Long deptId) {
+        EntityGraph<?> entityGraph = entityManager.getEntityGraph("graph.Relative.emp");
+        TypedQuery<Relative> query = entityManager.createNamedQuery("Relative.findRelativesByDepartmentGraph",
+                Relative.class).setParameter("departmentId", deptId);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
+
+        return query.getResultList();
     }
 
     public void deleteRelativesByEmployees(Long id) {
@@ -45,8 +55,9 @@ public class RelativeDAO extends BaseDAO<Relative> {
     }
 
     public Long getTotal(Long employeeId) {
-        Query query = entityManager.createQuery("select count(r.id) from Relative r where r.employee.id = :employeeId");
-        query.setParameter("employeeId", employeeId);
-        return (Long)query.getSingleResult();
+        return entityManager.createQuery("select count(r.id) from Relative r " +
+                        "where r.employee.id = :employeeId", Long.class)
+                .setParameter("employeeId", employeeId)
+                .getSingleResult();
     }
 }

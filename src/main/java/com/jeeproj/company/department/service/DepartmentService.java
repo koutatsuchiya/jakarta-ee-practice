@@ -6,6 +6,7 @@ import com.jeeproj.company.department.dto.DepartmentDTO;
 import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.department.dao.DepartmentDAO;
 import com.jeeproj.company.department.service.mapper.DepartmentMapper;
+import com.jeeproj.company.department_location.dao.DepartmentLocationDAO;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.project.dao.ProjectDAO;
 
@@ -25,6 +26,9 @@ public class DepartmentService {
 
     @Inject
     ProjectDAO projectDAO;
+
+    @Inject
+    DepartmentLocationDAO departmentLocationDAO;
 
     @Inject
     DepartmentMapper departmentMapper;
@@ -62,6 +66,7 @@ public class DepartmentService {
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
         employeeDAO.deleteEmployeesByDepartment(id);
         projectDAO.deleteProjectsByDepartment(id);
+        departmentLocationDAO.deleteLocationsByDepartment(id);
         departmentDAO.delete(dept);
     }
 }

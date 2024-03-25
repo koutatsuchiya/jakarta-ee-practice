@@ -14,11 +14,15 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "relatives")
-@NamedEntityGraph(
-        name = "relative-graph",
-        attributeNodes = {
-                @NamedAttributeNode("employee")
-        }
+@NamedEntityGraphs(
+        @NamedEntityGraph(name = "graph.Relative.emp",
+                attributeNodes = @NamedAttributeNode(value = "employee", subgraph = "graph.Employee.dept"),
+                subgraphs = {
+                        @NamedSubgraph(name = "graph.Employee.dept",
+                                attributeNodes = @NamedAttributeNode(value = "department")
+                        )
+                }
+        )
 )
 @NamedQueries({
         @NamedQuery(
@@ -27,6 +31,20 @@ import javax.persistence.*;
                         "new com.jeeproj.company.relative.dto.RelativeDTO(" +
                         "r.id, r.fullName, r.gender,r.phoneNumber,r.relationship) " +
                         "FROM Relative r " +
+                        "JOIN FETCH Employee e ON e.id = r.employee.id " +
+                        "JOIN FETCH Assignment a ON e.id = a.employee.id " +
+                        "JOIN FETCH Project p ON p.id = a.project.id " +
+                        "JOIN FETCH Department d ON d.id = p.department.id " +
+                        "WHERE d.id = :departmentId"
+        ),
+        @NamedQuery(
+                name = "Relative.findRelativesByDepartmentGraph",
+                query = "SELECT r " +
+                        "FROM Relative r " +
+//                        "JOIN FETCH r.employee e " +
+//                        "JOIN FETCH e.assignment a " +
+//                        "JOIN FETCH a.project p " +
+//                        "JOIN FETCH p.department d " +
                         "JOIN FETCH Employee e ON e.id = r.employee.id " +
                         "JOIN FETCH Assignment a ON e.id = a.employee.id " +
                         "JOIN FETCH Project p ON p.id = a.project.id " +

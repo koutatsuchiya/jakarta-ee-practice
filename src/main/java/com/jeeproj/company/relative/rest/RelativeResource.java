@@ -71,6 +71,7 @@ public class RelativeResource {
     @GET
     @Path("departments/{departmentId}")
     public Response findRelativesByDepartment(@PathParam("departmentId") Long departmentId) {
+//        List<RelativeDTO> relativeDTOs = relativeService.findRelativeDTOsByDepartment(departmentId);
         List<RelativeDTO> relativeDTOs = relativeService.findRelativesByDepartment(departmentId);
         return Response.ok(relativeDTOs).build();
     }
