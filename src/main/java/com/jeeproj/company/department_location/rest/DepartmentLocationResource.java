@@ -2,6 +2,7 @@ package com.jeeproj.company.department_location.rest;
 
 import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.department_location.dto.DepartmentLocationDTO;
 import com.jeeproj.company.department_location.dto.DepartmentLocationRequestDTO;
 import com.jeeproj.company.department_location.service.DepartmentLocationService;
@@ -33,6 +34,7 @@ public class DepartmentLocationResource {
 
     @GET
     @Path("/{id}")
+    @Secure
     public Response findLocationById(@PathParam("id") Long id) throws NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.getLocationById(id);
         return Response.ok(departmentLocationDTO).build();
@@ -40,6 +42,7 @@ public class DepartmentLocationResource {
 
     @GET
     @Path("departments/{departmentId}")
+    @Secure
     public Response findDepartmentLocationByDepartmentId(@PathParam("departmentId") Long departmentId)
             throws NotFoundException {
         List<DepartmentLocationDTO> departmentLocationDTOs = departmentLocationService
@@ -49,6 +52,7 @@ public class DepartmentLocationResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response add(@Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.add(departmentLocationRequestDTO);
@@ -60,6 +64,7 @@ public class DepartmentLocationResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response update(@PathParam("id") Long id, @Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.update(id, departmentLocationRequestDTO);
@@ -69,6 +74,7 @@ public class DepartmentLocationResource {
 
     @DELETE
     @Path("/{id}")
+    @Secure
     public Response delete(@PathParam("id") Long id) throws NotFoundException {
         departmentLocationService.delete(id);
 

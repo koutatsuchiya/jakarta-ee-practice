@@ -1,6 +1,7 @@
 package com.jeeproj.company.project.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.project.dto.ProjectDTO;
 import com.jeeproj.company.project.dto.ProjectReportDTO;
 import com.jeeproj.company.project.dto.ProjectRequestDTO;
@@ -33,6 +34,7 @@ public class ProjectResource {
 
     @GET
     @Path("/{id}")
+    @Secure
     public Response findById(@PathParam("id") Long id) throws NotFoundException {
         ProjectDTO projectDTO = projectService.getProjectById(id);
         return Response.ok(projectDTO).build();
@@ -40,6 +42,7 @@ public class ProjectResource {
 
     @GET
     @Path("/departments")
+    @Secure
     public Response findProjectsByDepartmentName(
             @DefaultValue("department") @QueryParam("departmentName") String departmentName) {
         List<ProjectDTO> projectDTOs = projectService.getAllByDepartmentName(departmentName);
@@ -49,6 +52,7 @@ public class ProjectResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response createProject(@Valid ProjectRequestDTO projectRequestDTO) throws NotFoundException {
         ProjectDTO projectDTO = projectService.add(projectRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(projectDTO.getId().toString()).build();
@@ -59,6 +63,7 @@ public class ProjectResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response updateProject(@PathParam("id") Long id, @Valid ProjectRequestDTO projectRequestDTO)
             throws NotFoundException {
         ProjectDTO projectDTO = projectService.update(id, projectRequestDTO);

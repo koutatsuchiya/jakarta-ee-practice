@@ -1,6 +1,7 @@
 package com.jeeproj.company.employee.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.employee.dto.EmployeeDTO;
 import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
 import com.jeeproj.company.employee.service.EmployeeService;
@@ -22,6 +23,7 @@ public class EmployeeResource {
     private UriInfo uriInfo;
 
     @GET
+    @Secure
     public Response getEmployees() {
         List<EmployeeResponseDTO> employees = employeeService.getEmployees();
         return Response.ok(employees).build();
@@ -29,18 +31,21 @@ public class EmployeeResource {
 
     @GET
     @Path("/{id}")
+    @Secure
     public Response getEmployeeById(@PathParam("id") Long id) throws NotFoundException {
         return Response.ok(employeeService.getEmployeeById(id)).build();
     }
 
     @GET
     @Path("/departments/{id}")
+    @Secure
     public Response getEmployeesByDepartmentID(@PathParam("departmentID") Long id) throws NotFoundException {
         return Response.ok(employeeService.getEmployeesByDepartment(id)).build();
     }
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response add(@Valid EmployeeDTO newEmp) throws NotFoundException {
         EmployeeResponseDTO employeeResponseDTO = employeeService.add(newEmp);
         URI location = uriInfo.getAbsolutePathBuilder().path(employeeResponseDTO.getId().toString()).build();
@@ -50,6 +55,7 @@ public class EmployeeResource {
 
     @PUT
     @Path("/{id}")
+    @Secure
     public Response updateEmployee(@PathParam("id") Long id, @Valid EmployeeDTO updateEmployeeRequestDTO)
             throws NotFoundException {
         EmployeeResponseDTO updatedEmployee = employeeService.update(id, updateEmployeeRequestDTO);
@@ -59,6 +65,7 @@ public class EmployeeResource {
 
     @DELETE
     @Path("/{id}")
+    @Secure
     public Response deleteEmployee(@PathParam("id") Long id) throws NotFoundException {
         employeeService.removeEmployee(id);
 

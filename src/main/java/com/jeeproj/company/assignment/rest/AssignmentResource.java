@@ -4,6 +4,7 @@ import com.jeeproj.company.assignment.dto.*;
 import com.jeeproj.company.assignment.service.AssignmentService;
 import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -38,6 +39,7 @@ public class AssignmentResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response add(@Valid AssignmentRequestDTO requestDTO)
             throws BadRequestException, NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.add(requestDTO);
@@ -49,6 +51,7 @@ public class AssignmentResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response update(@PathParam("id") Long id, @Valid AssignmentRequestDTO requestDTO) throws NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.update(id, requestDTO);
         return Response.ok(assignmentDTO).build();
@@ -56,6 +59,7 @@ public class AssignmentResource {
 
     @DELETE
     @Path("/{id}")
+    @Secure
     public Response deleteAssignment(@PathParam("id") Long id) throws NotFoundException {
         assignmentService.removeAssignment(id);
         return Response.noContent().build();

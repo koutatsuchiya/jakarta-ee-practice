@@ -1,6 +1,7 @@
 package com.jeeproj.company.department.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.department.dto.DepartmentDTO;
 import com.jeeproj.company.department.service.DepartmentService;
 
@@ -31,12 +32,14 @@ public class DepartmentResource {
 
     @GET
     @Path("/{id}")
+    @Secure
     public Response getDepartmentById(@PathParam("id") Long id) throws NotFoundException {
         DepartmentDTO departmentDTO = departmentService.getDepartmentById(id);
         return Response.ok(departmentDTO).build();
     }
 
     @POST
+    @Secure
     public Response add(@Valid DepartmentDTO departmentDTO) {
         DepartmentDTO addedDept = departmentService.add(departmentDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(addedDept.getId().toString()).build();
@@ -46,6 +49,7 @@ public class DepartmentResource {
 
     @PUT
     @Path("/{id}")
+    @Secure
     public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentDTO updatedDepartment)
             throws NotFoundException {
         DepartmentDTO updatedDepartmentDTO = departmentService.update(id, updatedDepartment);
@@ -55,6 +59,7 @@ public class DepartmentResource {
 
     @DELETE
     @Path("/{id}")
+    @Secure
     public Response deleteDepartment(@PathParam("id") Long id) throws NotFoundException {
         departmentService.removeDepartment(id);
         return Response.noContent().build();

@@ -13,12 +13,13 @@ import javax.ws.rs.ext.Provider;
 public class JsonProcessingExceptionMapper implements ExceptionMapper<JsonProcessingException> {
     @Override
     public Response toResponse(JsonProcessingException e) {
-        e.printStackTrace();
+        //e.printStackTrace();
+        String message = e.getOriginalMessage().substring(e.getOriginalMessage().indexOf(':') + 2);
         ExceptionBody body = new ExceptionBody(
                 false,
                 Response.Status.BAD_REQUEST.getStatusCode(),
                 Response.Status.BAD_REQUEST.getReasonPhrase(),
-                AppMessage.INVALID_JSON_FORMAT,
+                message,
                 null
         );
         return Response

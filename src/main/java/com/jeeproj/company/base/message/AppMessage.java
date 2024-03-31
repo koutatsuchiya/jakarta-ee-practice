@@ -22,7 +22,4 @@ public class AppMessage {
     public static final String INVALID_EMAIL_OR_PASSWORD = "Email or password is not correct";
     public static final String LOGIN_SUCCESSFULLY = "Login successfully";
     public static final String PERMISSION_DENIED = "Permission denied";
-
-    // App
-    public static final String INVALID_JSON_FORMAT = "Invalid JSON format";
 }

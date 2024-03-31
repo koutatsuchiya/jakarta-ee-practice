@@ -1,6 +1,7 @@
 package com.jeeproj.company.relative.rest;
 
 import com.jeeproj.company.base.exception.NotFoundException;
+import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.relative.dto.RelativeDTO;
 import com.jeeproj.company.relative.dto.RelativeRequestDTO;
 import com.jeeproj.company.relative.service.RelativeService;
@@ -25,12 +26,14 @@ public class RelativeResource {
     private UriInfo uriInfo;
 
     @GET
+    @Secure
     public Response findAll() {
         return Response.ok(relativeService.getAll()).build();
     }
 
     @GET
     @Path("/{id}")
+    @Secure
     public Response findRelativeById(@PathParam("id") Long id) throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.getRelativeById(id);
         return Response.ok(relativeDTO).build();
@@ -38,6 +41,7 @@ public class RelativeResource {
 
     @GET
     @Path("employees/{employeeId}")
+    @Secure
     public Response findRelativesByEmployeeId(@PathParam("employeeId") Long employeeId) {
         List<RelativeDTO> relativeDTOs = relativeService.findRelativesByEmployeeId(employeeId);
         return Response.ok(relativeDTOs).build();
@@ -45,6 +49,7 @@ public class RelativeResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response add(@Valid RelativeRequestDTO relativeRequestDTO) throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.add(relativeRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(relativeDTO.getId().toString()).build();
@@ -55,6 +60,7 @@ public class RelativeResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
+    @Secure
     public Response updateRelative(@PathParam("id") Long id, @Valid RelativeRequestDTO relativeRequestDTO)
             throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.update(id, relativeRequestDTO);
@@ -63,6 +69,7 @@ public class RelativeResource {
 
     @DELETE
     @Path("/{id}")
+    @Secure
     public Response deleteRelative(@PathParam("id") Long id) throws NotFoundException {
         relativeService.removeRelative(id);
         return Response.noContent().build();
@@ -70,6 +77,7 @@ public class RelativeResource {
 
     @GET
     @Path("departments/{departmentId}")
+    @Secure
     public Response findRelativesByDepartment(@PathParam("departmentId") Long departmentId) {
 //        List<RelativeDTO> relativeDTOs = relativeService.findRelativeDTOsByDepartment(departmentId);
         List<RelativeDTO> relativeDTOs = relativeService.findRelativesByDepartment(departmentId);
