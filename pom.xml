@@ -4,7 +4,7 @@
 
 	<groupId>com.jeeproj</groupId>
 	<artifactId>company</artifactId>
-	<version>0.1.0</version>
+	<version>0.3.0</version>
 	<packaging>war</packaging>
 
 	<name>company</name>
@@ -31,6 +31,8 @@
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<flyway.version>9.3.0</flyway.version>
 		<postgres.version>42.7.1</postgres.version>
+		<java-jwt.version>4.4.0</java-jwt.version>
+		<jbcrypt.version>0.4</jbcrypt.version>
 	</properties>
 
 	<dependencyManagement>
@@ -139,6 +141,19 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgres.version}</version>
+		</dependency>
+
+		<!-- java jwt -->
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>${java-jwt.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>${jbcrypt.version}</version>
 		</dependency>
 	</dependencies>
 

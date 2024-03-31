@@ -6,7 +6,7 @@ import com.jeeproj.company.assignment.entity.Assignment;
 import com.jeeproj.company.assignment.service.mapper.AssignmentMapper;
 import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
-import com.jeeproj.company.base.exception.message.ExceptionMessage;
+import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.project.dao.ProjectDAO;
@@ -37,7 +37,7 @@ public class AssignmentService {
 
     public AssignmentDTO getAssignmentById(Long id) throws NotFoundException {
         Assignment assignment = assignmentDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.ASSIGNMENT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.ASSIGNMENT_NOT_FOUND));
 
         return assignmentMapper.toAssignmentDTO(assignment);
     }
@@ -45,13 +45,13 @@ public class AssignmentService {
     public AssignmentDTO add(AssignmentRequestDTO assignmentRequestDTO)
             throws NotFoundException, BadRequestException {
         Project project = projectDAO.findProjectById(assignmentRequestDTO.getProjectId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.PROJECT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
         Employee employee = employeeDAO.findEmployeeById(assignmentRequestDTO.getEmployeeId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         Optional<Assignment> existedAssignment = assignmentDAO
                 .findAssignmentByProjectAndEmployee(project.getId(), employee.getId());
         if(existedAssignment.isPresent()) {
-            throw new BadRequestException(ExceptionMessage.ASSIGNMENT_EXIST);
+            throw new BadRequestException(AppMessage.ASSIGNMENT_EXIST);
         }
         Assignment newAssignment = assignmentMapper.toAssignment(assignmentRequestDTO);
         newAssignment.setProject(project);
@@ -62,11 +62,11 @@ public class AssignmentService {
 
     public AssignmentDTO update(Long id, AssignmentRequestDTO assignmentRequestDTO) throws NotFoundException {
         Assignment assignment = assignmentDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.ASSIGNMENT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.ASSIGNMENT_NOT_FOUND));
         Project project = projectDAO.findProjectById(assignmentRequestDTO.getProjectId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.PROJECT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
         Employee employee = employeeDAO.findEmployeeById(assignmentRequestDTO.getEmployeeId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         assignment.setProject(project);
         assignment.setEmployee(employee);
         assignmentMapper.updateAssignment(assignment, assignmentRequestDTO);
@@ -76,7 +76,7 @@ public class AssignmentService {
 
     public void removeAssignment(Long id) throws NotFoundException {
         Assignment assignment = assignmentDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.ASSIGNMENT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.ASSIGNMENT_NOT_FOUND));
         assignmentDAO.delete(assignment);
     }
 }

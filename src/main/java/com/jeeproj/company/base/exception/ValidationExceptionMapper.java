@@ -1,6 +1,6 @@
 package com.jeeproj.company.base.exception;
 
-import com.jeeproj.company.base.entity.ExceptionContent;
+import com.jeeproj.company.base.exception.body.ExceptionBody;
 
 import javax.validation.ValidationException;
 import javax.ws.rs.core.MediaType;
@@ -9,15 +9,14 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class ValidationMapper implements ExceptionMapper<ValidationException> {
-
+public class ValidationExceptionMapper implements ExceptionMapper<ValidationException> {
     @Override
     public Response toResponse(ValidationException e) {
         String[] messages = e.getMessage().split(",");
         for (int i = 0; i < messages.length; i++) {
             messages[i] = messages[i].split(": ")[1];
         }
-        ExceptionContent body = new ExceptionContent(
+        ExceptionBody body = new ExceptionBody(
                 false,
                 Response.Status.BAD_REQUEST.getStatusCode(),
                 Response.Status.BAD_REQUEST.getReasonPhrase(),

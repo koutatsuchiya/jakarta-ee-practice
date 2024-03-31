@@ -11,7 +11,7 @@ import com.jeeproj.company.base.enums.Status;
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -43,10 +43,10 @@ public class Employee extends BaseEntity {
     private Department department;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private List<Relative> relatives;
+    private Set<Relative> relatives;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-    private List<Assignment> assignments;
+    private Set<Assignment> assignments;
 
     @Transient
     public String getFullName() {

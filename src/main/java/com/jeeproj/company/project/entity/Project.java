@@ -7,7 +7,7 @@ import com.jeeproj.company.base.enums.Status;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,5 +27,5 @@ public class Project extends BaseEntity {
     private Department department;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-    private List<Assignment> assignments;
+    private Set<Assignment> assignments;
 }

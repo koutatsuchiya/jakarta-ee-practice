@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 
 @Getter
 @ApplicationException
-public class BadRequestException extends  AppException{
+public class BadRequestException extends AppException{
     public BadRequestException(String message) {
         super(Response.Status.BAD_REQUEST.getStatusCode(),
                 Response.Status.BAD_REQUEST.getReasonPhrase(), message);

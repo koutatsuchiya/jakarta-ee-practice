@@ -10,8 +10,8 @@ public class AppExceptionMapper implements ExceptionMapper<AppException> {
     @Override
     public Response toResponse(AppException e) {
         return Response
-                .status(e.getContent().getStatusCode())
-                .entity(e.getContent())
+                .status(e.getBody().getStatusCode())
+                .entity(e.getBody())
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }

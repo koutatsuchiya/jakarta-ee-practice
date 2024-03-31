@@ -3,7 +3,7 @@ package com.jeeproj.company.project.service;
 import com.jeeproj.company.assignment.dao.AssignmentDAO;
 import com.jeeproj.company.assignment.entity.Assignment;
 import com.jeeproj.company.base.exception.NotFoundException;
-import com.jeeproj.company.base.exception.message.ExceptionMessage;
+import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.department.dao.DepartmentDAO;
 import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.project.dao.ProjectDAO;
@@ -38,7 +38,7 @@ public class ProjectService {
 
     public ProjectDTO getProjectById(Long id) throws NotFoundException {
         Project project = projectDAO.findProjectById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.PROJECT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
 
         return projectMapper.toProjectDTO(project);
     }
@@ -51,7 +51,7 @@ public class ProjectService {
 
     public ProjectDTO add(ProjectRequestDTO projectRequestDTO) throws NotFoundException {
         Department dept = departmentDAO.findById(projectRequestDTO.getDepartmentId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
         Project newProj = projectMapper.toProject(projectRequestDTO);
         newProj.setDepartment(dept);
 
@@ -60,12 +60,12 @@ public class ProjectService {
 
     public ProjectDTO update(Long id, ProjectRequestDTO projectRequestDTO) throws NotFoundException {
         Project project = projectDAO.findProjectById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.PROJECT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
         if (projectRequestDTO.getDepartmentId() == null) {
             project.setDepartment(null);
         } else {
             Department dept = departmentDAO.findById(projectRequestDTO.getDepartmentId())
-                    .orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
+                    .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
             project.setDepartment(dept);
         }
         projectMapper.updateProject(project, projectRequestDTO);
@@ -79,7 +79,7 @@ public class ProjectService {
     })
     public void removeProject(Long id) throws NotFoundException {
         Project project = projectDAO.findProjectById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.PROJECT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
         assignmentDAO.deleteAssignmentsByProject(id);
         projectDAO.delete(project);
     }

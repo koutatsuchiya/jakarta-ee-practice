@@ -1,7 +1,7 @@
 package com.jeeproj.company.relative.service;
 
 import com.jeeproj.company.base.exception.NotFoundException;
-import com.jeeproj.company.base.exception.message.ExceptionMessage;
+import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.relative.dao.RelativeDAO;
@@ -32,7 +32,7 @@ public class RelativeService {
 
     public RelativeDTO getRelativeById(Long id) throws NotFoundException {
         Relative relative = relativeDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.RELATIVE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.RELATIVE_NOT_FOUND));
 
         return relativeMapper.toRelativeDTO(relative);
     }
@@ -43,7 +43,7 @@ public class RelativeService {
 
     public RelativeDTO add(RelativeRequestDTO relativeRequestDTO) throws NotFoundException {
         Employee emp = employeeDAO.findById(relativeRequestDTO.getEmployeeId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         Relative newRelative = relativeMapper.toRelative(relativeRequestDTO);
         newRelative.setEmployee(emp);
 
@@ -52,12 +52,12 @@ public class RelativeService {
 
     public RelativeDTO update(Long id, RelativeRequestDTO relativeRequestDTO) throws NotFoundException {
         Relative relative = relativeDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.RELATIVE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.RELATIVE_NOT_FOUND));
         if (relativeRequestDTO.getEmployeeId() == null) {
             relative.setEmployee(null);
         } else {
             Employee emp = employeeDAO.findById(relativeRequestDTO.getEmployeeId())
-                    .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                    .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
             relative.setEmployee(emp);
         }
         relativeMapper.updateRelative(relative, relativeRequestDTO);
@@ -71,7 +71,7 @@ public class RelativeService {
     })
     public void removeRelative(Long id) throws NotFoundException {
         Relative relative = relativeDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.RELATIVE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.RELATIVE_NOT_FOUND));
         relativeDAO.delete(relative);
     }
 

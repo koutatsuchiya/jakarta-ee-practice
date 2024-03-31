@@ -2,7 +2,7 @@ package com.jeeproj.company.employee.service;
 
 import com.jeeproj.company.assignment.dao.AssignmentDAO;
 import com.jeeproj.company.base.exception.NotFoundException;
-import com.jeeproj.company.base.exception.message.ExceptionMessage;
+import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.employee.dto.EmployeeDTO;
 import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
@@ -39,20 +39,20 @@ public class EmployeeService {
     }
 
     public EmployeeResponseDTO getEmployeeById(Long id) throws NotFoundException {
-        Employee emp = employeeDAO.findById(id).orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+        Employee emp = employeeDAO.findById(id).orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
 
         return employeeMapper.toEmployeeResponseDTO(emp);
     }
 
     public List<EmployeeResponseDTO> getEmployeesByDepartment(Long deptId) throws NotFoundException {
-        departmentDAO.findById(deptId).orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
+        departmentDAO.findById(deptId).orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
 
         return employeeMapper.toEmployeeResponseDTOs(employeeDAO.getEmployeeByDepartmentID(deptId));
     }
 
     public EmployeeResponseDTO add(EmployeeDTO newEmployeeDTO) throws NotFoundException {
         Department dept = departmentDAO.findById(newEmployeeDTO.getDepartmentId())
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
         Employee newEmp = employeeMapper.toEmployee(newEmployeeDTO);
         newEmp.setDepartment(dept);
 
@@ -61,12 +61,12 @@ public class EmployeeService {
 
     public EmployeeResponseDTO update(Long id, EmployeeDTO employeeDTO) throws NotFoundException {
         Employee emp = employeeDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         if (employeeDTO.getDepartmentId() == null) {
             emp.setDepartment(null);
         } else {
             Department dept = departmentDAO.findById(employeeDTO.getDepartmentId())
-                    .orElseThrow(() -> new NotFoundException(ExceptionMessage.DEPARTMENT_NOT_FOUND));
+                    .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
             emp.setDepartment(dept);
         }
         employeeMapper.updateEmployee(emp, employeeDTO);
@@ -80,7 +80,7 @@ public class EmployeeService {
     })
     public void removeEmployee(Long id) throws NotFoundException {
         Employee emp = employeeDAO.findById(id)
-                .orElseThrow(() -> new NotFoundException(ExceptionMessage.EMPLOYEE_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         assignmentDAO.deleteAssignmentsByEmployee(id);
         relativeDAO.deleteRelativesByEmployees(id);
         employeeDAO.delete(emp);

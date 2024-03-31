@@ -1,6 +1,6 @@
 package com.jeeproj.company.base.exception;
 
-import com.jeeproj.company.base.entity.ExceptionContent;
+import com.jeeproj.company.base.exception.body.ExceptionBody;
 import lombok.Getter;
 
 import javax.ejb.ApplicationException;
@@ -8,10 +8,10 @@ import javax.ejb.ApplicationException;
 @Getter
 @ApplicationException
 public abstract class AppException extends Exception {
-    private ExceptionContent content;
+    private final ExceptionBody body;
 
-    public AppException(int statusCode, String errorKey, String message) {
+    protected AppException(int statusCode, String errorKey, String message) {
         super(message);
-        this.content = new ExceptionContent(false, statusCode, errorKey, message, null);
+        this.body = new ExceptionBody(false, statusCode, errorKey, message, null);
     }
 }

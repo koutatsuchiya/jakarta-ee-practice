@@ -14,7 +14,7 @@ import java.util.Optional;
 public abstract class BaseDAO<T extends BaseEntity> {
     @PersistenceContext
     protected EntityManager entityManager;
-    private final Class<T> entityClass;
+    protected final Class<T> entityClass;
 
     public List<T> findAll() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();

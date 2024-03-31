@@ -41,14 +41,10 @@ import javax.persistence.*;
                 name = "Relative.findRelativesByDepartmentGraph",
                 query = "SELECT r " +
                         "FROM Relative r " +
-//                        "JOIN FETCH r.employee e " +
-//                        "JOIN FETCH e.assignment a " +
-//                        "JOIN FETCH a.project p " +
-//                        "JOIN FETCH p.department d " +
-                        "JOIN FETCH Employee e ON e.id = r.employee.id " +
-                        "JOIN FETCH Assignment a ON e.id = a.employee.id " +
-                        "JOIN FETCH Project p ON p.id = a.project.id " +
-                        "JOIN FETCH Department d ON d.id = p.department.id " +
+                        "JOIN Employee e ON e.id = r.employee.id " +
+                        "JOIN Assignment a ON e.id = a.employee.id " +
+                        "JOIN Project p ON p.id = a.project.id " +
+                        "JOIN Department d ON d.id = p.department.id " +
                         "WHERE d.id = :departmentId"
         )
 })
