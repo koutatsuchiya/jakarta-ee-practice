@@ -39,7 +39,7 @@ public class AssignmentResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response add(@Valid AssignmentRequestDTO requestDTO)
             throws BadRequestException, NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.add(requestDTO);
@@ -51,7 +51,7 @@ public class AssignmentResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response update(@PathParam("id") Long id, @Valid AssignmentRequestDTO requestDTO) throws NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.update(id, requestDTO);
         return Response.ok(assignmentDTO).build();
@@ -59,7 +59,7 @@ public class AssignmentResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response deleteAssignment(@PathParam("id") Long id) throws NotFoundException {
         assignmentService.removeAssignment(id);
         return Response.noContent().build();

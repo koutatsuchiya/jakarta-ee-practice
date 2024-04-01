@@ -15,6 +15,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import java.io.IOException;
 
 @Provider
 @Secure
@@ -26,7 +27,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private TokenProvider tokenProvider;
 
     @Override
-    public void filter(ContainerRequestContext reqCtx) {
+    public void filter(ContainerRequestContext reqCtx) throws IOException {
         String token = getTokenFromHeader(reqCtx);
 
         JwtPayload payload = getPayloadFromToken(token);

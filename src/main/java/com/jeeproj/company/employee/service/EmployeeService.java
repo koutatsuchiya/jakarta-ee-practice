@@ -51,11 +51,12 @@ public class EmployeeService {
     }
 
     public EmployeeResponseDTO add(EmployeeDTO newEmployeeDTO) throws NotFoundException {
-        Department dept = departmentDAO.findById(newEmployeeDTO.getDepartmentId())
-                .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
         Employee newEmp = employeeMapper.toEmployee(newEmployeeDTO);
-        newEmp.setDepartment(dept);
-
+        if (newEmployeeDTO.getDepartmentId() != null) {
+            Department dept = departmentDAO.findById(newEmployeeDTO.getDepartmentId())
+                    .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
+            newEmp.setDepartment(dept);
+        }
         return employeeMapper.toEmployeeResponseDTO(employeeDAO.add(newEmp));
     }
 

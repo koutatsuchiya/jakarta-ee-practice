@@ -49,7 +49,7 @@ public class RelativeResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response add(@Valid RelativeRequestDTO relativeRequestDTO) throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.add(relativeRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(relativeDTO.getId().toString()).build();
@@ -60,7 +60,7 @@ public class RelativeResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response updateRelative(@PathParam("id") Long id, @Valid RelativeRequestDTO relativeRequestDTO)
             throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.update(id, relativeRequestDTO);
@@ -69,7 +69,7 @@ public class RelativeResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response deleteRelative(@PathParam("id") Long id) throws NotFoundException {
         relativeService.removeRelative(id);
         return Response.noContent().build();

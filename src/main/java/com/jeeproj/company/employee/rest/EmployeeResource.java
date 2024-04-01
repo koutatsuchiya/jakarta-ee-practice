@@ -45,7 +45,7 @@ public class EmployeeResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response add(@Valid EmployeeDTO newEmp) throws NotFoundException {
         EmployeeResponseDTO employeeResponseDTO = employeeService.add(newEmp);
         URI location = uriInfo.getAbsolutePathBuilder().path(employeeResponseDTO.getId().toString()).build();
@@ -55,7 +55,7 @@ public class EmployeeResource {
 
     @PUT
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response updateEmployee(@PathParam("id") Long id, @Valid EmployeeDTO updateEmployeeRequestDTO)
             throws NotFoundException {
         EmployeeResponseDTO updatedEmployee = employeeService.update(id, updateEmployeeRequestDTO);
@@ -65,7 +65,7 @@ public class EmployeeResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response deleteEmployee(@PathParam("id") Long id) throws NotFoundException {
         employeeService.removeEmployee(id);
 

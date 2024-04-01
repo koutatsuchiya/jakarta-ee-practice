@@ -39,7 +39,7 @@ public class DepartmentResource {
     }
 
     @POST
-    @Secure
+    @Secure(role = "ADMIN")
     public Response add(@Valid DepartmentDTO departmentDTO) {
         DepartmentDTO addedDept = departmentService.add(departmentDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(addedDept.getId().toString()).build();
@@ -49,7 +49,7 @@ public class DepartmentResource {
 
     @PUT
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentDTO updatedDepartment)
             throws NotFoundException {
         DepartmentDTO updatedDepartmentDTO = departmentService.update(id, updatedDepartment);
@@ -59,7 +59,7 @@ public class DepartmentResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response deleteDepartment(@PathParam("id") Long id) throws NotFoundException {
         departmentService.removeDepartment(id);
         return Response.noContent().build();

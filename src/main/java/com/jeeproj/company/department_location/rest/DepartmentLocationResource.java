@@ -52,7 +52,7 @@ public class DepartmentLocationResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response add(@Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.add(departmentLocationRequestDTO);
@@ -64,7 +64,7 @@ public class DepartmentLocationResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure
+    @Secure(role = "ADMIN")
     public Response update(@PathParam("id") Long id, @Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.update(id, departmentLocationRequestDTO);
@@ -74,7 +74,7 @@ public class DepartmentLocationResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure
+    @Secure(role = "ADMIN")
     public Response delete(@PathParam("id") Long id) throws NotFoundException {
         departmentLocationService.delete(id);
 
