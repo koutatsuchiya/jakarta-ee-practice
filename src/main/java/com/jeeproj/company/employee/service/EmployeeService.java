@@ -9,6 +9,7 @@ import com.jeeproj.company.employee.dto.EmployeeResponseDTO;
 import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.department.dao.DepartmentDAO;
+import com.jeeproj.company.employee.service.cache.EmployeeCache;
 import com.jeeproj.company.employee.service.mapper.EmployeeMapper;
 import com.jeeproj.company.relative.dao.RelativeDAO;
 
@@ -34,8 +35,18 @@ public class EmployeeService {
     @Inject
     EmployeeMapper employeeMapper;
 
+    @Inject
+    EmployeeCache employeeCache;
+
     public List<EmployeeResponseDTO> getEmployees() {
-        return employeeMapper.toEmployeeResponseDTOs(employeeDAO.findAll());
+        List<Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCache.employeesKey);
+        if (employees != null) {
+            return employeeMapper.toEmployeeResponseDTOs(employees);
+        }
+        employees = employeeDAO.findAll();
+        employeeCache.getCache().put(EmployeeCache.employeesKey, employees);
+
+        return employeeMapper.toEmployeeResponseDTOs(employees);
     }
 
     public EmployeeResponseDTO getEmployeeById(Long id) throws NotFoundException {
