@@ -5,6 +5,7 @@ import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.department.dto.DepartmentDTO;
 import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.department.dao.DepartmentDAO;
+import com.jeeproj.company.department.service.cache.DepartmentCache;
 import com.jeeproj.company.department.service.mapper.DepartmentMapper;
 import com.jeeproj.company.department_location.dao.DepartmentLocationDAO;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
@@ -32,7 +33,15 @@ public class DepartmentService {
     @Inject
     DepartmentMapper departmentMapper;
 
+    @Inject
+    DepartmentCache departmentCache;
+
     public List<DepartmentDTO> getDepartments() {
+        List<Department> departments = departmentCache.getCache().getIfPresent(DepartmentCache.departmentsKey);
+        if (departments == null) {
+            departments = departmentDAO.findAll();
+            departmentCache.getCache().put(DepartmentCache.departmentsKey, departments);
+        }
         return departmentMapper.toDepartmentDTOs(departmentDAO.findAll());
     }
 

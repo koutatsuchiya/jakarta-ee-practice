@@ -40,12 +40,10 @@ public class EmployeeService {
 
     public List<EmployeeResponseDTO> getEmployees() {
         List<Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCache.employeesKey);
-        if (employees != null) {
-            return employeeMapper.toEmployeeResponseDTOs(employees);
+        if (employees == null) {
+            employees = employeeDAO.findAll();
+            employeeCache.getCache().put(EmployeeCache.employeesKey, employees);
         }
-        employees = employeeDAO.findAll();
-        employeeCache.getCache().put(EmployeeCache.employeesKey, employees);
-
         return employeeMapper.toEmployeeResponseDTOs(employees);
     }
 
