@@ -5,6 +5,7 @@ import com.jeeproj.company.base.message.AppMessage;
 import lombok.SneakyThrows;
 
 import javax.annotation.Priority;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -13,9 +14,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Provider
-@Secure
 @Priority(Priorities.AUTHORIZATION)
 public class AuthorizationFilter implements ContainerRequestFilter {
     @Context
@@ -26,17 +27,18 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext reqCtx) throws IOException {
-        Secure secureAnnotation = rsInfo.getResourceMethod().getAnnotation(Secure.class);
-        if (secureAnnotation != null) {
-            if (!secureAnnotation.role().isEmpty()) {
-                checkUserInRole(secureAnnotation.role());
+        RolesAllowed rolesAllowedAnnotation = rsInfo.getResourceMethod().getAnnotation(RolesAllowed.class);
+        if (rolesAllowedAnnotation != null) {
+            if (rolesAllowedAnnotation.value().length > 0) {
+                checkUserInRole(rolesAllowedAnnotation.value());
             }
         }
     }
 
     @SneakyThrows
-    private void checkUserInRole(String role) {
-        if (!secCtx.isUserInRole(role)) {
+    private void checkUserInRole(String[] roles) {
+        boolean isForbidden = Arrays.stream(roles).noneMatch(role -> secCtx.isUserInRole(role));
+        if (isForbidden) {
             throw new UnauthorizedException(AppMessage.PERMISSION_DENIED);
         }
     }

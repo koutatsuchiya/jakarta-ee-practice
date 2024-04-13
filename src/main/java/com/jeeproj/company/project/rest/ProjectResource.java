@@ -7,6 +7,7 @@ import com.jeeproj.company.project.dto.ProjectReportDTO;
 import com.jeeproj.company.project.dto.ProjectRequestDTO;
 import com.jeeproj.company.project.service.ProjectService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -52,7 +53,8 @@ public class ProjectResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response createProject(@Valid ProjectRequestDTO projectRequestDTO) throws NotFoundException {
         ProjectDTO projectDTO = projectService.add(projectRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(projectDTO.getId().toString()).build();
@@ -63,7 +65,8 @@ public class ProjectResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response updateProject(@PathParam("id") Long id, @Valid ProjectRequestDTO projectRequestDTO)
             throws NotFoundException {
         ProjectDTO projectDTO = projectService.update(id, projectRequestDTO);
@@ -73,7 +76,8 @@ public class ProjectResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response deleteProject(@PathParam("id") Long id) throws NotFoundException {
         projectService.removeProject(id);
 

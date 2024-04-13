@@ -12,14 +12,14 @@ import com.jeeproj.company.base.exception.UnauthorizedException;
 import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.base.security.tokenprovider.TokenProvider;
 
-import javax.enterprise.context.Dependent;
+import javax.ejb.Singleton;
 import javax.ws.rs.ServerErrorException;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Dependent
+@Singleton
 public class JwtProvider implements TokenProvider {
     private final Algorithm algorithm = Algorithm.HMAC256(JwtConfig.getSecretKey());
 

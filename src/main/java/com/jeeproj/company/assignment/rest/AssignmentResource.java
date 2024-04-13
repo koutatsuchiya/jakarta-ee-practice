@@ -6,6 +6,7 @@ import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
 import com.jeeproj.company.base.filter.Secure;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -39,7 +40,8 @@ public class AssignmentResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response add(@Valid AssignmentRequestDTO requestDTO)
             throws BadRequestException, NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.add(requestDTO);
@@ -51,7 +53,8 @@ public class AssignmentResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response update(@PathParam("id") Long id, @Valid AssignmentRequestDTO requestDTO) throws NotFoundException {
         AssignmentDTO assignmentDTO = assignmentService.update(id, requestDTO);
         return Response.ok(assignmentDTO).build();
@@ -59,7 +62,8 @@ public class AssignmentResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response deleteAssignment(@PathParam("id") Long id) throws NotFoundException {
         assignmentService.removeAssignment(id);
         return Response.noContent().build();

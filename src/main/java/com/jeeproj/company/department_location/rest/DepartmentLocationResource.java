@@ -7,6 +7,7 @@ import com.jeeproj.company.department_location.dto.DepartmentLocationDTO;
 import com.jeeproj.company.department_location.dto.DepartmentLocationRequestDTO;
 import com.jeeproj.company.department_location.service.DepartmentLocationService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -52,7 +53,8 @@ public class DepartmentLocationResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response add(@Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.add(departmentLocationRequestDTO);
@@ -64,7 +66,8 @@ public class DepartmentLocationResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response update(@PathParam("id") Long id, @Valid DepartmentLocationRequestDTO departmentLocationRequestDTO)
             throws BadRequestException, NotFoundException {
         DepartmentLocationDTO departmentLocationDTO = departmentLocationService.update(id, departmentLocationRequestDTO);
@@ -74,7 +77,8 @@ public class DepartmentLocationResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response delete(@PathParam("id") Long id) throws NotFoundException {
         departmentLocationService.delete(id);
 

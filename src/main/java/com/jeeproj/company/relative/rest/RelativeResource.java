@@ -6,6 +6,7 @@ import com.jeeproj.company.relative.dto.RelativeDTO;
 import com.jeeproj.company.relative.dto.RelativeRequestDTO;
 import com.jeeproj.company.relative.service.RelativeService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -49,7 +50,8 @@ public class RelativeResource {
 
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response add(@Valid RelativeRequestDTO relativeRequestDTO) throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.add(relativeRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(relativeDTO.getId().toString()).build();
@@ -60,7 +62,8 @@ public class RelativeResource {
     @PUT
     @Path("/{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response updateRelative(@PathParam("id") Long id, @Valid RelativeRequestDTO relativeRequestDTO)
             throws NotFoundException {
         RelativeDTO relativeDTO = relativeService.update(id, relativeRequestDTO);
@@ -69,7 +72,8 @@ public class RelativeResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response deleteRelative(@PathParam("id") Long id) throws NotFoundException {
         relativeService.removeRelative(id);
         return Response.noContent().build();

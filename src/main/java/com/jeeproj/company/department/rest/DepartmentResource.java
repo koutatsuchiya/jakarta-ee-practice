@@ -5,6 +5,7 @@ import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.department.dto.DepartmentDTO;
 import com.jeeproj.company.department.service.DepartmentService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -16,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @Path("departments")
-@Produces({ MediaType.APPLICATION_JSON })
+@Produces({MediaType.APPLICATION_JSON})
 public class DepartmentResource {
     @Inject
     DepartmentService departmentService;
@@ -39,7 +40,9 @@ public class DepartmentResource {
     }
 
     @POST
-    @Secure(role = "ADMIN")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response add(@Valid DepartmentDTO departmentDTO) {
         DepartmentDTO addedDept = departmentService.add(departmentDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(addedDept.getId().toString()).build();
@@ -49,7 +52,9 @@ public class DepartmentResource {
 
     @PUT
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentDTO updatedDepartment)
             throws NotFoundException {
         DepartmentDTO updatedDepartmentDTO = departmentService.update(id, updatedDepartment);
@@ -59,7 +64,8 @@ public class DepartmentResource {
 
     @DELETE
     @Path("/{id}")
-    @Secure(role = "ADMIN")
+    @Secure()
+    @RolesAllowed({"ADMIN"})
     public Response deleteDepartment(@PathParam("id") Long id) throws NotFoundException {
         departmentService.removeDepartment(id);
         return Response.noContent().build();
