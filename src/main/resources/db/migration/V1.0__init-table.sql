@@ -1,7 +1,7 @@
 CREATE TABLE department (
     id                      INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     start_date              DATE,
-    department_name         VARCHAR(200),
+    name                    VARCHAR(200),
     created_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at              TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

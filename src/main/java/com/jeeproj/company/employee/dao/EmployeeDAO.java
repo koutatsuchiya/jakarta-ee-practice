@@ -13,20 +13,11 @@ public class EmployeeDAO extends BaseDAO<Employee> {
         super(Employee.class);
     }
 
-    public List<Employee> getEmployeeByDepartmentID (Long departmentID) {
+    public List<Employee> getEmployeesByDepartmentID (Long departmentID) {
         return entityManager.createQuery("SELECT e FROM Employee e " +
                 "WHERE e.department.id = :departmentID", Employee.class)
                 .setParameter("departmentID", departmentID)
                 .getResultList();
-    }
-
-    public Optional<Employee> findEmployeeById(Long id) {
-        Employee employee = entityManager.createQuery("select e from Employee e " +
-                        "where e.id = :id", Employee.class)
-                .setParameter("id", id)
-                .getSingleResult();
-
-        return Optional.ofNullable(employee);
     }
 
     public void deleteEmployeesByDepartment(Long id) {

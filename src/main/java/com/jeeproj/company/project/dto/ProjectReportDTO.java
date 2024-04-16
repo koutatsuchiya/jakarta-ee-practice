@@ -2,7 +2,7 @@ package com.jeeproj.company.project.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.jeeproj.company.department.dto.DepartmentDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestDTO;
 import lombok.*;
 
 @Getter
@@ -16,7 +16,7 @@ public class ProjectReportDTO {
     private String projectName;
     private String area;
     private String status;
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
     private int numberOfEmployees;
     private int numberOfHours;
     private double totalSalary;

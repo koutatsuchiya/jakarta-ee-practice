@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 public class Department extends BaseEntity {
     @Column(unique = true, nullable = false)
-    private String departmentName;
+    private String name;
 
     @JsonbDateFormat("yyyy-MM-dd")
     private LocalDate startDate;

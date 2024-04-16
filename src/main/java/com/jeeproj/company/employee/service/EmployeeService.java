@@ -10,6 +10,7 @@ import com.jeeproj.company.employee.entity.Employee;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.department.dao.DepartmentDAO;
 import com.jeeproj.company.employee.service.cache.EmployeeCache;
+import com.jeeproj.company.employee.service.cache.EmployeeCacheConstant;
 import com.jeeproj.company.employee.service.mapper.EmployeeMapper;
 import com.jeeproj.company.relative.dao.RelativeDAO;
 
@@ -39,10 +40,10 @@ public class EmployeeService {
     EmployeeCache employeeCache;
 
     public List<EmployeeResponseDTO> getEmployees() {
-        List<Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCache.employeesKey);
+        List<Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCacheConstant.employeesKey);
         if (employees == null) {
             employees = employeeDAO.findAll();
-            employeeCache.getCache().put(EmployeeCache.employeesKey, employees);
+            employeeCache.getCache().put(EmployeeCacheConstant.employeesKey, employees);
         }
         return employeeMapper.toEmployeeResponseDTOs(employees);
     }
@@ -56,7 +57,7 @@ public class EmployeeService {
     public List<EmployeeResponseDTO> getEmployeesByDepartment(Long deptId) throws NotFoundException {
         departmentDAO.findById(deptId).orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
 
-        return employeeMapper.toEmployeeResponseDTOs(employeeDAO.getEmployeeByDepartmentID(deptId));
+        return employeeMapper.toEmployeeResponseDTOs(employeeDAO.getEmployeesByDepartmentID(deptId));
     }
 
     public EmployeeResponseDTO add(EmployeeDTO newEmployeeDTO) throws NotFoundException {

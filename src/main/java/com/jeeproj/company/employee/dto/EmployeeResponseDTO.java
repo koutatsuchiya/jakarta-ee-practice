@@ -2,7 +2,7 @@ package com.jeeproj.company.employee.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.jeeproj.company.department.dto.DepartmentDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestDTO;
 import com.jeeproj.company.base.enums.Gender;
 import com.jeeproj.company.base.enums.Status;
 import lombok.AllArgsConstructor;
@@ -22,5 +22,5 @@ public class EmployeeResponseDTO {
     private String dateOfBirth;
     private Gender gender;
     private Status status;
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
 }

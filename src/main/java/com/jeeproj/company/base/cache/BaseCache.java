@@ -14,7 +14,7 @@ public abstract class BaseCache<E> {
     protected BaseCache(long cacheSize, long expiredTime, TimeUnit unit) {
         cache = Caffeine.newBuilder()
                 .maximumSize(cacheSize)
-                .expireAfterWrite(expiredTime, unit)
+                .expireAfterAccess(expiredTime, unit)
                 .build();
     }
 }

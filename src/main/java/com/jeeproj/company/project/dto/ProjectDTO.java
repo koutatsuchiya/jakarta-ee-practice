@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.jeeproj.company.base.enums.Status;
 import com.jeeproj.company.base.validations.ValueOfEnum;
-import com.jeeproj.company.department.dto.DepartmentDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestDTO;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -27,5 +27,5 @@ public class ProjectDTO {
     @ValueOfEnum(enumClass = Status.class)
     private Status status;
 
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
 }

@@ -1,6 +1,6 @@
 package com.jeeproj.company.department_location.dto;
 
-import com.jeeproj.company.department.dto.DepartmentDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestDTO;
 import lombok.*;
 
 @Getter
@@ -11,5 +11,5 @@ import lombok.*;
 public class DepartmentLocationDTO {
     private Long id;
     private String location;
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
 }

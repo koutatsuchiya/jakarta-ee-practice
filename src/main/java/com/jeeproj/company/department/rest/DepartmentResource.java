@@ -1,18 +1,18 @@
 package com.jeeproj.company.department.rest;
 
+import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
 import com.jeeproj.company.base.filter.Secure;
 import com.jeeproj.company.department.dto.DepartmentDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestDTO;
+import com.jeeproj.company.department.dto.DepartmentRequestsDTO;
 import com.jeeproj.company.department.service.DepartmentService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
 
@@ -43,11 +43,28 @@ public class DepartmentResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Secure()
     @RolesAllowed({"ADMIN"})
-    public Response add(@Valid DepartmentDTO departmentDTO) {
-        DepartmentDTO addedDept = departmentService.add(departmentDTO);
+    public Response add(@Valid DepartmentRequestDTO departmentRequestDTO) throws BadRequestException {
+        DepartmentDTO addedDept = departmentService.add(departmentRequestDTO);
         URI location = uriInfo.getAbsolutePathBuilder().path(addedDept.getId().toString()).build();
 
         return Response.created(location).entity(addedDept).build();
+    }
+
+    @POST
+    @Path("/bulk")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Secure()
+    @RolesAllowed({"ADMIN"})
+    public Response addDepartments(@Valid DepartmentRequestsDTO departmentRequestsDTO) throws BadRequestException {
+        List<DepartmentDTO> deptToAdds = departmentService.addDepartments(departmentRequestsDTO);
+        String location = String.join("; ",
+                deptToAdds.stream().map(deptToAdd -> uriInfo.getAbsolutePathBuilder()
+                        .path(deptToAdd.getId().toString()).build().toString()).toList());
+
+        return Response.created(uriInfo.getAbsolutePath())
+                .header(HttpHeaders.LOCATION, location)
+                .entity(deptToAdds)
+                .build();
     }
 
     @PUT
@@ -55,7 +72,7 @@ public class DepartmentResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Secure()
     @RolesAllowed({"ADMIN"})
-    public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentDTO updatedDepartment)
+    public Response updateDepartment(@PathParam("id") Long id, @Valid DepartmentRequestDTO updatedDepartment)
             throws NotFoundException {
         DepartmentDTO updatedDepartmentDTO = departmentService.update(id, updatedDepartment);
 

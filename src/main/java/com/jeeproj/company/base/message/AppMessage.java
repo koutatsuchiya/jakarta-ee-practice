@@ -8,6 +8,8 @@ public class AppMessage {
     // Business
     public static final String EMPLOYEE_NOT_FOUND = "Employee not found";
     public static final String DEPARTMENT_NOT_FOUND = "Department not found";
+    public static final String DEPARTMENT_EXIST = "Department is exist";
+    public static final String DEPARTMENTS_EXIST = "Department(s) already exist";
     public static final String PROJECT_NOT_FOUND = "Project not found";
     public static final String ASSIGNMENT_NOT_FOUND = "Assignment not found";
     public static final String ASSIGNMENT_EXIST = "Assignment is exist";

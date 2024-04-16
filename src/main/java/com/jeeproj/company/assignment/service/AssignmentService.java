@@ -46,7 +46,7 @@ public class AssignmentService {
             throws NotFoundException, BadRequestException {
         Project project = projectDAO.findProjectById(assignmentRequestDTO.getProjectId())
                 .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
-        Employee employee = employeeDAO.findEmployeeById(assignmentRequestDTO.getEmployeeId())
+        Employee employee = employeeDAO.findById(assignmentRequestDTO.getEmployeeId())
                 .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         Optional<Assignment> existedAssignment = assignmentDAO
                 .findAssignmentByProjectAndEmployee(project.getId(), employee.getId());
@@ -65,7 +65,7 @@ public class AssignmentService {
                 .orElseThrow(() -> new NotFoundException(AppMessage.ASSIGNMENT_NOT_FOUND));
         Project project = projectDAO.findProjectById(assignmentRequestDTO.getProjectId())
                 .orElseThrow(() -> new NotFoundException(AppMessage.PROJECT_NOT_FOUND));
-        Employee employee = employeeDAO.findEmployeeById(assignmentRequestDTO.getEmployeeId())
+        Employee employee = employeeDAO.findById(assignmentRequestDTO.getEmployeeId())
                 .orElseThrow(() -> new NotFoundException(AppMessage.EMPLOYEE_NOT_FOUND));
         assignment.setProject(project);
         assignment.setEmployee(employee);
