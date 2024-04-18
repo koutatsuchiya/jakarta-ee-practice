@@ -28,7 +28,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext reqCtx) throws IOException {
         RolesAllowed rolesAllowedAnnotation = rsInfo.getResourceMethod().getAnnotation(RolesAllowed.class);
-        if (rolesAllowedAnnotation != null) {
+        if (isUserAuthenticated() && rolesAllowedAnnotation != null) {
             if (rolesAllowedAnnotation.value().length > 0) {
                 checkUserInRole(rolesAllowedAnnotation.value());
             }
@@ -37,9 +37,14 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
     @SneakyThrows
     private void checkUserInRole(String[] roles) {
-        boolean isForbidden = Arrays.stream(roles).noneMatch(role -> secCtx.isUserInRole(role));
+        boolean isForbidden = Arrays.stream(roles).noneMatch(role -> !role.isEmpty() && secCtx.isUserInRole(role));
         if (isForbidden) {
             throw new UnauthorizedException(AppMessage.PERMISSION_DENIED);
         }
+    }
+
+    private boolean isUserAuthenticated() {
+        Secure secureAnnotation = rsInfo.getResourceMethod().getAnnotation(Secure.class);
+        return secureAnnotation != null;
     }
 }

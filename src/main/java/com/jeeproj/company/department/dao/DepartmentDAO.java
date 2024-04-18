@@ -13,10 +13,9 @@ public class DepartmentDAO extends BaseDAO<Department> {
     }
 
     public Optional<Department> findDepartmentByName(String departmentName) {
-        Department department = entityManager.createQuery("SELECT d FROM Department d " +
+        return entityManager.createQuery("SELECT d FROM Department d " +
                 "WHERE d.name = :departmentName", Department.class)
                 .setParameter("departmentName", departmentName)
-                .getSingleResult();
-        return Optional.ofNullable(department);
+                .getResultList().stream().findFirst();
     }
 }

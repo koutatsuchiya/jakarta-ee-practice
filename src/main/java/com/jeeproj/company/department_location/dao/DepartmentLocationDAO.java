@@ -21,14 +21,12 @@ public class DepartmentLocationDAO extends BaseDAO<DepartmentLocation> {
     }
 
     public Optional<DepartmentLocation> findDepartmentLocation(String location, Long departmentId) {
-        DepartmentLocation departmentLocation = entityManager.createQuery("select dl from DepartmentLocation dl " +
+        return entityManager.createQuery("select dl from DepartmentLocation dl " +
                         "where lower(dl.location) = :location " +
                         "and dl.department.id = :departmentId", DepartmentLocation.class)
                 .setParameter("location", location)
                 .setParameter("departmentId", departmentId)
-                .getSingleResult();
-
-        return Optional.ofNullable(departmentLocation);
+                .getResultList().stream().findFirst();
     }
 
     public void deleteLocationsByDepartment(Long id) {

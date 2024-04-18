@@ -12,6 +12,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
+import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
@@ -55,13 +56,16 @@ public class DepartmentResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Secure()
     @RolesAllowed({"ADMIN"})
-    public Response addDepartments(@Valid DepartmentRequestsDTO departmentRequestsDTO) throws BadRequestException {
+    public Response addDepartments(@Valid DepartmentRequestsDTO departmentRequestsDTO,
+                                   @Context ResourceInfo rsInfo) throws BadRequestException {
         List<DepartmentDTO> deptToAdds = departmentService.addDepartments(departmentRequestsDTO);
+        String rsPath = rsInfo.getResourceClass().getAnnotation(Path.class).value();
         String location = String.join("; ",
-                deptToAdds.stream().map(deptToAdd -> uriInfo.getAbsolutePathBuilder()
+                deptToAdds.stream().map(deptToAdd -> uriInfo.getBaseUriBuilder()
+                        .path(rsPath)
                         .path(deptToAdd.getId().toString()).build().toString()).toList());
 
-        return Response.created(uriInfo.getAbsolutePath())
+        return Response.status(Response.Status.CREATED)
                 .header(HttpHeaders.LOCATION, location)
                 .entity(deptToAdds)
                 .build();

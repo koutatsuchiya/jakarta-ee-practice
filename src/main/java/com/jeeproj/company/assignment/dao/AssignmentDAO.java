@@ -21,13 +21,11 @@ public class AssignmentDAO extends BaseDAO<Assignment> {
     }
 
     public Optional<Assignment> findAssignmentByProjectAndEmployee(Long projectId, Long employeeId) {
-        Assignment assignment = entityManager.createQuery("select a from Assignment a " +
+        return entityManager.createQuery("select a from Assignment a " +
                         "where a.project.id = :projectId and a.employee.id = :employeeId", Assignment.class)
                 .setParameter("projectId", projectId)
                 .setParameter("employeeId", employeeId)
-                .getSingleResult();
-
-        return Optional.ofNullable(assignment);
+                .getResultList().stream().findFirst();
     }
 
     public void deleteAssignmentsByProject(Long projectId) {

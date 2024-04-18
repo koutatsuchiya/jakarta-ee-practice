@@ -21,12 +21,10 @@ public class ProjectDAO extends BaseDAO<Project> {
     }
 
     public Optional<Project> findProjectById(Long id) {
-        Project project = entityManager.createQuery("select p from Project p " +
+        return entityManager.createQuery("select p from Project p " +
                         "where p.id = :id", Project.class)
                 .setParameter("id", id)
-                .getSingleResult();
-
-        return Optional.ofNullable(project);
+                .getResultList().stream().findFirst();
     }
 
     public List<Project> findProjectsByDepartmentName (String departmentName) {

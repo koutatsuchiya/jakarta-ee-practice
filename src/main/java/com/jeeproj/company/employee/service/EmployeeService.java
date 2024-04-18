@@ -18,6 +18,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Stateless
 public class EmployeeService {
@@ -40,12 +42,12 @@ public class EmployeeService {
     EmployeeCache employeeCache;
 
     public List<EmployeeResponseDTO> getEmployees() {
-        List<Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCacheConstant.employeesKey);
+        Map<Long, Employee> employees = employeeCache.getCache().getIfPresent(EmployeeCacheConstant.employeesKey);
         if (employees == null) {
-            employees = employeeDAO.findAll();
+            employees = employeeDAO.findAll().stream().collect(Collectors.toMap(Employee::getId, emp -> emp));
             employeeCache.getCache().put(EmployeeCacheConstant.employeesKey, employees);
         }
-        return employeeMapper.toEmployeeResponseDTOs(employees);
+        return employeeMapper.toEmployeeResponseDTOs(employees.values().stream().toList());
     }
 
     public EmployeeResponseDTO getEmployeeById(Long id) throws NotFoundException {
