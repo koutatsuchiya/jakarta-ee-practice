@@ -21,10 +21,13 @@ import java.util.List;
 @Produces({MediaType.APPLICATION_JSON})
 public class DepartmentResource {
     @Inject
-    DepartmentService departmentService;
+    private DepartmentService departmentService;
 
     @Context
     private UriInfo uriInfo;
+
+    @Context
+    private ResourceInfo rsInfo;
 
     @GET
     public Response getDepartments() {
@@ -56,8 +59,7 @@ public class DepartmentResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Secure()
     @RolesAllowed({"ADMIN"})
-    public Response addDepartments(@Valid DepartmentRequestsDTO departmentRequestsDTO,
-                                   @Context ResourceInfo rsInfo) throws BadRequestException {
+    public Response addDepartments(@Valid DepartmentRequestsDTO departmentRequestsDTO) throws BadRequestException {
         List<DepartmentDTO> deptToAdds = departmentService.addDepartments(departmentRequestsDTO);
         String rsPath = rsInfo.getResourceClass().getAnnotation(Path.class).value();
         String location = String.join("; ",

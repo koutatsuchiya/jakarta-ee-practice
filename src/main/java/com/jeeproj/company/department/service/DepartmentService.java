@@ -93,7 +93,7 @@ public class DepartmentService {
     public DepartmentDTO update(Long id, DepartmentRequestDTO departmentRequestDTO) throws NotFoundException {
         Department department = departmentDAO.findById(id)
                 .orElseThrow(() -> new NotFoundException(AppMessage.DEPARTMENT_NOT_FOUND));
-        departmentMapper.updateDepartment(department, departmentRequestDTO);
+        updateDepartmentWithRequestDTO(department, departmentRequestDTO);
         modifyDepartmentsCache(id, department);
 
         return departmentMapper.toDepartmentDTO(department);
@@ -111,6 +111,15 @@ public class DepartmentService {
         departmentLocationDAO.deleteLocationsByDepartment(id);
         departmentDAO.delete(dept);
         modifyDepartmentsCache(id, null);
+    }
+
+    public void updateDepartmentWithRequestDTO(Department department, DepartmentRequestDTO departmentRequestDTO) {
+        if ( departmentRequestDTO == null ) {
+            return;
+        }
+        department.setName( departmentRequestDTO.getName() );
+        department.setStartDate( departmentRequestDTO.getStartDate() );
+        department.setStatus( departmentRequestDTO.getStatus() );
     }
 
     private void checkDuplicatedDepartment(String deptName) throws BadRequestException {

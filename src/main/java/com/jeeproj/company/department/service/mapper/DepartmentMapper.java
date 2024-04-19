@@ -18,6 +18,4 @@ public interface DepartmentMapper {
     List<Department> toDepartments(List<DepartmentRequestDTO> departmentRequestDTOs);
 
     List<DepartmentDTO> toDepartmentDTOs(List<Department> departments);
-
-    void updateDepartment(@MappingTarget Department department, DepartmentRequestDTO departmentRequestDTO);
 }
