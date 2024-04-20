@@ -1,5 +1,6 @@
 package com.jeeproj.company.user.service.mapper;
 
+import com.jeeproj.company.user.dto.AccRegisterDTO;
 import com.jeeproj.company.user.dto.SignUpDTO;
 import com.jeeproj.company.user.dto.UserDTO;
 import com.jeeproj.company.user.entity.User;
@@ -15,6 +16,8 @@ public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
     User toUser(SignUpDTO signUpDTO);
+
+    AccRegisterDTO toAccRegisterDTO(User user);
 
     List<UserDTO> toUserDTOs(List<User> users);
 }
