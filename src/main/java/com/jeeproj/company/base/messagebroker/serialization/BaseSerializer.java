@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.kafka.common.serialization.Serializer;
 
-public abstract class ObjectSerializer<T> implements Serializer<T> {
+public abstract class BaseSerializer<T> implements Serializer<T> {
     @Override
     @SneakyThrows
     public byte[] serialize(String s, T t) {

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.Deserializer;
 
 @RequiredArgsConstructor
-public abstract class ObjectDeserializer<T> implements Deserializer<T> {
+public abstract class BaseDeserializer<T> implements Deserializer<T> {
     protected final Class<T> classType;
 
     @Override
