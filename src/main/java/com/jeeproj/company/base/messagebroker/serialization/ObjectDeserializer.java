@@ -1,19 +1,22 @@
 package com.jeeproj.company.base.messagebroker.serialization;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jeeproj.company.user.dto.AccRegisterDTO;
+import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.serialization.Deserializer;
 
-public class ObjectDeserializer implements Deserializer<Object> {
+@RequiredArgsConstructor
+public abstract class ObjectDeserializer<T> implements Deserializer<T> {
+    protected final Class<T> classType;
+
     @Override
-    public Object deserialize(String s, byte[] bytes) {
+    public T deserialize(String s, byte[] bytes) {
         ObjectMapper objMapper = new ObjectMapper();
-        Object o;
+        T t;
         try {
-            o = objMapper.readValue(bytes, Object.class);
+            t = objMapper.readValue(bytes, classType);
         } catch (Exception e) {
-            o = null;
+            t = null;
         }
-        return o;
+        return t;
     }
 }

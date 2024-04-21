@@ -11,7 +11,7 @@ import com.jeeproj.company.department.dao.DepartmentDAO;
 import com.jeeproj.company.department.service.cache.DepartmentCache;
 import com.jeeproj.company.department.service.cache.DepartmentCacheConstant;
 import com.jeeproj.company.department.service.mapper.DepartmentMapper;
-import com.jeeproj.company.department_location.dao.DepartmentLocationDAO;
+import com.jeeproj.company.departmentlocation.dao.DepartmentLocationDAO;
 import com.jeeproj.company.employee.dao.EmployeeDAO;
 import com.jeeproj.company.project.dao.ProjectDAO;
 

@@ -1,11 +1,11 @@
-package com.jeeproj.company.department_location.rest;
+package com.jeeproj.company.departmentlocation.rest;
 
 import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
 import com.jeeproj.company.base.filter.Secure;
-import com.jeeproj.company.department_location.dto.DepartmentLocationDTO;
-import com.jeeproj.company.department_location.dto.DepartmentLocationRequestDTO;
-import com.jeeproj.company.department_location.service.DepartmentLocationService;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationDTO;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationRequestDTO;
+import com.jeeproj.company.departmentlocation.service.DepartmentLocationService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;

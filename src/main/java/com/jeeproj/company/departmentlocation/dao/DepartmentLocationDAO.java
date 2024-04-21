@@ -1,7 +1,7 @@
-package com.jeeproj.company.department_location.dao;
+package com.jeeproj.company.departmentlocation.dao;
 
 import com.jeeproj.company.base.dao.BaseDAO;
-import com.jeeproj.company.department_location.entity.DepartmentLocation;
+import com.jeeproj.company.departmentlocation.entity.DepartmentLocation;
 
 import javax.ejb.Stateless;
 import java.util.List;

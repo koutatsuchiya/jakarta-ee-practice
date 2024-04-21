@@ -1,4 +1,4 @@
-package com.jeeproj.company.department_location.service;
+package com.jeeproj.company.departmentlocation.service;
 
 import com.jeeproj.company.base.exception.BadRequestException;
 import com.jeeproj.company.base.exception.NotFoundException;
@@ -6,11 +6,11 @@ import com.jeeproj.company.base.message.AppMessage;
 import com.jeeproj.company.department.dao.DepartmentDAO;
 import com.jeeproj.company.department.entity.Department;
 import com.jeeproj.company.department.service.mapper.DepartmentMapper;
-import com.jeeproj.company.department_location.dao.DepartmentLocationDAO;
-import com.jeeproj.company.department_location.dto.DepartmentLocationDTO;
-import com.jeeproj.company.department_location.dto.DepartmentLocationRequestDTO;
-import com.jeeproj.company.department_location.entity.DepartmentLocation;
-import com.jeeproj.company.department_location.service.mapper.DepartmentLocationMapper;
+import com.jeeproj.company.departmentlocation.dao.DepartmentLocationDAO;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationDTO;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationRequestDTO;
+import com.jeeproj.company.departmentlocation.entity.DepartmentLocation;
+import com.jeeproj.company.departmentlocation.service.mapper.DepartmentLocationMapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

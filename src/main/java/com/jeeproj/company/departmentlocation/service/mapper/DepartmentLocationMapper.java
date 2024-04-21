@@ -1,8 +1,8 @@
-package com.jeeproj.company.department_location.service.mapper;
+package com.jeeproj.company.departmentlocation.service.mapper;
 
-import com.jeeproj.company.department_location.dto.DepartmentLocationDTO;
-import com.jeeproj.company.department_location.dto.DepartmentLocationRequestDTO;
-import com.jeeproj.company.department_location.entity.DepartmentLocation;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationDTO;
+import com.jeeproj.company.departmentlocation.dto.DepartmentLocationRequestDTO;
+import com.jeeproj.company.departmentlocation.entity.DepartmentLocation;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;

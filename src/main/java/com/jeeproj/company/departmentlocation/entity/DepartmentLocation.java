@@ -1,4 +1,4 @@
-package com.jeeproj.company.department_location.entity;
+package com.jeeproj.company.departmentlocation.entity;
 
 import com.jeeproj.company.base.entity.BaseEntity;
 import com.jeeproj.company.department.entity.Department;

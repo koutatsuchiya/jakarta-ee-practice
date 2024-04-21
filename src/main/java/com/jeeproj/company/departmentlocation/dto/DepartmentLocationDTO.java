@@ -1,4 +1,4 @@
-package com.jeeproj.company.department_location.dto;
+package com.jeeproj.company.departmentlocation.dto;
 
 import com.jeeproj.company.department.dto.DepartmentRequestDTO;
 import lombok.*;

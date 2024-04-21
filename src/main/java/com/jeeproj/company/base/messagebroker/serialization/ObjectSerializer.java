@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.kafka.common.serialization.Serializer;
 
-public class ObjectSerializer implements Serializer<Object> {
+public abstract class ObjectSerializer<T> implements Serializer<T> {
     @Override
     @SneakyThrows
-    public byte[] serialize(String s, Object o) {
+    public byte[] serialize(String s, T t) {
         byte[] bytes;
         ObjectMapper objMapper = new ObjectMapper();
-        System.out.println("Serialized: " + o);
-        bytes = objMapper.writeValueAsString(o).getBytes();
+        System.out.println("Serialized: " + t);
+        bytes = objMapper.writeValueAsString(t).getBytes();
         return bytes;
     }
 }
